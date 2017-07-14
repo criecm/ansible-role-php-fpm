@@ -40,9 +40,10 @@ env[TMPDIR] = {{ fpm_site.tmpdir }}
 
 php_value[session.save_path] = {{ fpm_site.sessions_path }}
 php_value[error_log] = {{ fpm_site.error_log }}
-php_admin_value[upload_tmp_dir] = {{ fpm_site.tmpdir }}
+php_admin_value[upload_tmp_dir] = {{ fpm_site.upload_dir }}
 php_admin_value[memory_limit] = {{ fpm_site.memory_limit }}M
 php_admin_flag[display_errors] = {% if fpm_site.debug %}on{% else %}off{% endif %}
+
 {% if fpm_site.limit_openbasedir %}
 php_admin_value[open_basedir] = {{ fpm_site.tmpdir }}:{{ fpm_site.rootdir }}:{{ pear_path }}:/etc/ssl{% if fpm_site.open_basedir_add %}:{{ fpm_site.open_basedir_add }}
 {% endif %}
