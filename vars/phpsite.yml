@@ -1,0 +1,44 @@
+# config d'un site php-fpm
+#
+# site.id: MANDATORY, base for default user, maintainer, group, home, rootdir, tmpdir, …
+#
+# site.fcgisocket can be a unix path or IP:PORT
+#
+# all other values can be overriden by site dict vars (site has precedence over default_fpm_site)
+---
+default_fpm_site:
+  id: default
+  name: ''
+  rootdir: '{{ phpsite.home | default("/home/"+phpsite.id) }}/{{ phpsite.id }}'
+  pm: ondemand
+  pm_max: 200
+  pm_max_requests: 500
+  pm_idle_timeout: 10s
+  pm_min: 2
+  pm_start: 5
+  pm_max_spare: 10
+  home: '/home/{{ phpsite.id }}'
+  tmpdir: '{{ phpsite.tmpdir | default("/home/"+phpsite.id+"/tmp") }}'
+  php_flags: {}
+  php_values: {}
+  php_admin_flags: {}
+  php_admin_values: {}
+  debug: False
+  user: '_{{ phpsite.id }}'
+  maintainer: '{{ phpsite.id }}'
+  group: '_{{ phpsite.id }}'
+  fcgi_status_path: /fpmstatus.php
+  pingpath: /fpmping.php
+  sessions_path: '{{ phpsite.tmpdir | default("/home/"+phpsite.id+"/tmp") }}/sessions'
+  upload_dir: '{{ phpsite.tmpdir | default("/home/"+phpsite.id+"/tmp") }}/upload'
+  limit_openbasedir: True
+  open_basedir_add: ''
+  include_path: '.:{{ pear_path }}'
+  memory_limit: 128
+  upload_max_meg: 20
+  error_log: '{{ fpm_error_log }}'
+  fcgisocket: '/var/run/{{ phpsite.id }}.sock'
+  webserver_role: nginx
+  crons: []
+
+fpm_site: '{{ default_fpm_site | combine(phpsite) }}'

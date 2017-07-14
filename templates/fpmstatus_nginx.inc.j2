@@ -1,0 +1,8 @@
+location ~ /fpm(status|ping)$ {
+{% for net in monitoring_from %}
+	allow {{ net }};
+{% endfor %}
+	deny all;
+	include fastcgi_params;
+	fastcgi_pass {{ fpm_site.fcgisocket }};
+}

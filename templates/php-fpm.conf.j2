@@ -1,0 +1,12 @@
+[global]
+
+pid = {{ fpm_pidfile }}
+
+process.priority = {{ fpm_priority }}
+
+log_level = {{ fpm_log_level }}
+
+error_log = {{ fpm_error_log }}
+
+include = {{ fpm_pools_dir }}/*.conf
+

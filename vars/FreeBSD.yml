@@ -1,0 +1,9 @@
+---
+www_user: www
+www_group: www
+fpm_pools_dir: /usr/local/etc/php-fpm.d
+fpm_pidfile: /var/run/php-fpm.pid
+fpm_tmpbase: /var/tmp/php
+fpm_service: php-fpm
+pear_path: /usr/local/share/pear
+fpm_conf: /usr/local/etc/php-fpm.conf

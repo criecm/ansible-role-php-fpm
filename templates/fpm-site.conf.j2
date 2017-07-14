@@ -1,0 +1,65 @@
+; {{ ansible_managed }}
+[{{ fpm_site.id }}]
+user = {{ fpm_site.user | default("_"+fpm_site.id) }}
+group = {{ fpm_site.group | default("_"+fpm_site.id) }}
+
+listen = {{ fpm_site.fcgisocket }}
+
+{% if fpm_site.fcgisocket | match("\/.*") %}
+listen.owner = {{ www_user }}
+listen.group = {{ www_group }}
+listen.mode = 660
+{% else %}
+listen.allowed_clients = {{ fpm_site.fcgisocket | regex_replace(":.*$","") }}
+{% endif %}
+
+pm = {{ fpm_site.pm }}
+pm.max_children = {{ fpm_site.pm_max }}
+pm.max_requests = {{ fpm_site.pm_max_requests }}
+{% if fpm_site.pm | match("ondemand") %}
+pm.process_idle_timeout = {{ fpm_site.pm_idle_timeout }}
+{% else %}
+pm.start_servers = {{ fpm_site.pm_start }}
+pm.min_spare_servers = {{ fpm_site.pm_min }}
+pm.max_spare_servers = {{ fpm_site.pm_max_spare }}
+{% endif %}
+pm.status_path = {{ fpm_site.fcgi_status_path }}
+ping.path = {{ fpm_site.pingpath }}
+
+chdir = {{ fpm_site.home | default("/home/"+fpm_site.id+"/"+fpm_site.id) }}
+
+{% if fpm_site.debug %}
+catch_workers_output = yes
+{% endif %}
+
+env[HOSTNAME] = {{ fpm_site.name }}
+env[PATH] = {{ fpm_site.path | default("/bin:/usr/bin:/usr/local/bin") }}
+env[TMP] = {{ fpm_site.tmpdir }}
+env[TEMP] = {{ fpm_site.tmpdir }}
+env[TMPDIR] = {{ fpm_site.tmpdir }}
+
+php_value[session.save_path] = {{ fpm_site.sessions_path }}
+php_value[error_log] = {{ fpm_site.error_log }}
+php_admin_value[upload_tmp_dir] = {{ fpm_site.tmpdir }}
+php_admin_value[memory_limit] = {{ fpm_site.memory_limit }}M
+php_admin_flag[display_errors] = {% if fpm_site.debug %}on{% else %}off{% endif %}
+{% if fpm_site.limit_openbasedir %}
+php_admin_value[open_basedir] = {{ fpm_site.tmpdir }}:{{ fpm_site.rootdir }}:{{ pear_path }}:/etc/ssl{% if fpm_site.open_basedir_add %}:{{ fpm_site.open_basedir_add }}
+{% endif %}
+{% endif %}
+
+php_admin_value[post_max_size] = {{ ( fpm_site.upload_max_meg * 1.3 ) | int }}M
+php_admin_value[upload_max_filesize] = {{ fpm_site.upload_max_meg }}M
+
+{% for k, v in fpm_site.php_values.items() %}
+php_value[{{ k }}] = {{ v }}
+{% endfor %} 
+{% for k, v in fpm_site.php_flags.items() %}
+php_flag[{{ k }}] = {{ v }}
+{% endfor %} 
+{% for k, v in fpm_site.php_admin_values.items() %}
+php_admin_value[{{ k }}] = {{ v }}
+{% endfor %} 
+{% for k, v in fpm_site.php_admin_flags.items() %}
+php_admin_flag[{{ k }}] = {{ v }}
+{% endfor %} 

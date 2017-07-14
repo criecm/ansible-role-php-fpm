@@ -1,0 +1,10 @@
+---
+- name: restart fpm
+  service:
+    name: '{{ fpm_service }}'
+    state: restarted
+
+- name: reload fpm
+  service:
+    name: '{{ fpm_service }}'
+    state: reloaded

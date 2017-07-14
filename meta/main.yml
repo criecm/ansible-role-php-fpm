@@ -1,0 +1,22 @@
+---
+galaxy_info:
+  author: Geoffroy Desvernay
+  description: php-fpm server and webapps
+  company: Ecole Centrale Marseille
+
+  license: BSD
+
+  min_ansible_version: 2.3
+
+  platforms:
+    - name: FreeBSD
+      versions:
+        - 11.0
+        - 10.3
+    - name: Debian
+      versions:
+        - jessie
+        - stretch
+
+dependencies: []
+
