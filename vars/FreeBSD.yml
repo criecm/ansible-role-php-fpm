@@ -9,3 +9,4 @@ pear_path: /usr/local/share/pear
 fpm_conf: /usr/local/etc/php-fpm.conf
 phpinidest: /usr/local/etc/php.ini
 phpiniclidest: usr/local/etc/php-cli.ini
+fpm_pkg_name: php56
