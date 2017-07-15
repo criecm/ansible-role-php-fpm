@@ -7,3 +7,6 @@ fpm_tmpbase: /var/tmp/php
 fpm_service: php5-fpm
 pear_path: /usr/share/php
 fpm_conf: /etc/php5/fpm/php-fpm.conf
+phpinidest: /etc/php5/fpm/php.ini
+phpiniclidest: /etc/php5/cli/php.ini
+fpm_pkg_name: php5-fpm

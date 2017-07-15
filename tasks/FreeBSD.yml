@@ -4,7 +4,7 @@
     name: '{{ item }}'
     state: present
   with_items:
-    - php56
+    - '{{ fpm_pkg_name }}'
 
 - name: enable php-fpm
   lineinfile:

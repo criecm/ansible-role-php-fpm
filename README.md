@@ -6,7 +6,23 @@ Installs php-fpm and one or many pools using 'site' configs.
 
 Calls webserver role (nginx by default) per site to create HTTP confs
 
-# Role variables (default value)
+## php.ini
+
+There is a default php.ini in templates/php.ini.j2.
+
+CLI-specific php.ini use the same template by default
+same apply for FPM-specific php.ini (debian only)
+
+You can override by placing a template named after:
+  `php[-TYPE][-SYSTEM].ini.j2`
+
+example for cli-specific ini file on a freebsd host: first match will win from:
+  - php-cli-FreeBSD.ini.j2
+  - php-cli.ini.j2
+  - php-FreeBSD.ini.j2
+  - php.ini.j2
+
+## Role variables (default value)
 
 * `monitoring_from` ([127.0.0.1]): host(s) or net(s) allowed to query status url's
 

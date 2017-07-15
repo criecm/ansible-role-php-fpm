@@ -1,17 +1,50 @@
 ---
+- include_vars: '{{ includefile }}.yml'
+  with_first_found:
+    - files:
+      - '{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml'
+      - '{{ ansible_os_family }}.yml'
+  tags: vars, phpfpm
+
 - include: '{{ ansible_distribution }}.yml'
   tags: phpfpm, pkg
 
-- include_vars: '{{ ansible_os_family }}.yml'
-  tags: vars, phpfpm
+- block: default configs
+  - name: php-fpm.conf
+    template:
+      src: php-fpm.conf.j2
+      dest: '{{ fpm_conf }}'
+    tags: phpfpm, config
+  - name: php.ini
+    template:
+      src: '{{ phpinifile }}'
+      dest: '{{ phpinidest }}'
+    with_first_found:
+      - 'php.ini-{{ ansible-distribution }}.j2'
+      - php.ini.j2
+    loop_control:
+      loop_var: phpinifile
+  - name: php.ini fpm
+    template:
+      src: '{{ phpinifile }}'
+      dest: '{{ phpinidest }}'
+    with_first_found:
+      - 'php-fpm.ini-{{ ansible-distribution }}.j2'
+      - php-fpm.ini.j2
+      - php.ini.j2
+    loop_control:
+      loop_var: phpinifile
+  - name: php.ini cli
+    template:
+      src: '{{ phpinifile }}'
+      dest: '{{ phpinidest }}'
+    with_first_found:
+      - 'php-cli.ini-{{ ansible-distribution }}.j2'
+      - php-cli.ini.j2
+      - php.ini.j2
+    loop_control:
+      loop_var: phpinifile
 
-- name: default config
-  template: 
-    src: php-fpm.conf.j2
-    dest: '{{ fpm_conf }}'
-  tags: phpfpm, config
-
-# TODO - name: cron tmp
 
 - debug: var=sites
 

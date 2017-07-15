@@ -1,0 +1,12 @@
+---
+www_user: www-data
+www_group: www-data
+fpm_pools_dir: /etc/php/7.0/pool.d
+fpm_pidfile: /run/php/php7.0-fpm.pid
+fpm_tmpbase: /var/tmp/php
+fpm_service: php-fpm
+pear_path: /usr/share/php
+fpm_conf: /etc/php/7.0/fpm/php-fpm.conf
+phpinidest: /etc/php/7.0/fpm/php.ini
+phpiniclidest: /etc/php/7.0/cli/php.ini
+fpm_pkg_name: php-fpm
