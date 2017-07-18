@@ -26,7 +26,7 @@
   - name: php.ini cli
     template:
       src: '{{ phpinifile }}'
-      dest: '{{ phpinidest }}'
+      dest: '{{ phpiniclidest }}'
     with_first_found:
       - 'php-cli.ini-{{ ansible-distribution }}.j2'
       - php-cli.ini.j2
