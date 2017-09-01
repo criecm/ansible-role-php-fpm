@@ -38,7 +38,7 @@ default_fpm_site:
   upload_max_meg: 20
   error_log: '{{ fpm_error_log }}'
   fcgisocket: '/var/run/{{ phpsite.id }}.sock'
-  webserver_role: nginx
+  webserver_role: criecm.nginx
   crons: []
 
 fpm_site: '{{ default_fpm_site | combine(phpsite) }}'
