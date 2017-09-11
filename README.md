@@ -91,13 +91,13 @@ example for cli-specific ini file on a freebsd host: first match will win from:
 
 * `upload_max_meg` (20): base to compute php `post_max_size` and `upload_max_filesize`, in Mo
 
-* `php_values` ([]): additional php values for php.ini
+* `php_values` ({}): additional php values for php.ini
 
-* `php_flags` ([]): additional php flags for php.ini
+* `php_flags` ({}): additional php flags for php.ini
 
-* `php_admin_values` ([]): additional forced `php_values`
+* `php_admin_values` ({}): additional forced `php_values`
 
-* `php_admin_flags` ([]): additional forced `php_flags`
+* `php_admin_flags` ({}): additional forced `php_flags`
 
 * `error_log` (`{{fpm_error_log}}`): error log file for this site
 
