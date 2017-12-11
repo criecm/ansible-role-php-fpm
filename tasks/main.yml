@@ -6,7 +6,7 @@
       - '{{ ansible_os_family }}.yml'
   tags: vars, phpfpm
 
-- include: '{{ ansible_distribution }}.yml'
+- include_tasks: '{{ ansible_distribution }}.yml'
   tags: phpfpm, pkg
 
 - block:
@@ -45,7 +45,7 @@
   tags: phpfpm, config
 
 - name: php-fpm sites
-  include: 'phpapp.yml'
+  include_tasks: 'phpapp.yml'
   with_items: '{{ sites }}'
   loop_control:
     loop_var: phpsite
