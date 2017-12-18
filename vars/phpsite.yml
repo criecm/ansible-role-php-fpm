@@ -18,7 +18,7 @@ default_fpm_site:
   pm_start: 5
   pm_max_spare: 10
   home: '/home/{{ phpsite.id }}'
-  tmpdir: '{{ phpsite.tmpdir | default("/home/"+phpsite.id+"/tmp") }}'
+  tmpdir: '{{ phpsite.tmpdir | default("/home/"+phpsite.id+"/tmp/tmp") }}'
   php_flags: {}
   php_values: {}
   php_admin_flags: {}
@@ -39,6 +39,7 @@ default_fpm_site:
   error_log: '{{ fpm_error_log }}'
   fcgisocket: '/var/run/{{ phpsite.id }}.sock'
   webserver_role: criecm.nginx
+  default_index: index.php
   crons: []
 
-fpm_site: '{{ default_fpm_site | combine(phpsite) }}'
+#site: '{{ default_fpm_site | combine(phpsite) }}'

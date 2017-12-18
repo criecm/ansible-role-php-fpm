@@ -4,5 +4,5 @@ location ~ /fpm(status|ping)$ {
 {% endfor %}
 	deny all;
 	include fastcgi_params;
-	fastcgi_pass {{ fpm_site.fcgisocket }};
+	fastcgi_pass {{ site.fcgisocket }};
 }

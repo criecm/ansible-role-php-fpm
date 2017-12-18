@@ -1,4 +1,6 @@
 ---
+php_version: 7.1
+
 sites: []
 
 monitoring_from:
@@ -10,4 +12,4 @@ fpm_error_log: syslog
 
 fpm_log_level: notice
 
-
+proxified_by: []

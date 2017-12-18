@@ -1,4 +1,5 @@
 ---
+php_version: {{ php_version | default('7.0') }}
 www_user: www-data
 www_group: www-data
 fpm_pools_dir: /etc/php/7.0/pool.d

@@ -3,127 +3,143 @@
 
 - include_vars: phpsite.yml
 
-- debug: var=fpm_site
+- set_fact:
+    site: '{{ default_fpm_site | combine(phpsite) }}'
+    onesite: '{{ default_fpm_site | combine(phpsite) }}'
 
 - name: group
   group:
-    name: '{{ fpm_site.group }}'
+    name: '{{ site.group }}'
     state: present
 
 - name: site user
   user:
-    name: '{{ fpm_site.user }}'
+    name: '{{ site.user }}'
     shell: /usr/sbin/nologin
-    comment: 'php-fpm {{ fpm_site.name }}'
+    comment: 'php-fpm {{ site.user }}'
     home: /nonexistent
     createhome: no
-    group: '{{ fpm_site.group }}'
+    group: '{{ site.group }}'
     login_class: daemon
     state: present
 
 - name: maintenance user
   user:
-    name: '{{ fpm_site.maintainer }}'
+    name: '{{ site.maintainer }}'
     shell: /bin/sh
-    home: '{{ fpm_site.home }}'
-    comment: 'maintenance user for php {{ fpm_site.name }}'
+    home: '{{ site.home }}'
+    comment: 'maintenance user for php {{ site.user }}'
     createhome: yes
-    group: '{{ fpm_site.group }}'
-  when: fpm_site.maintainer != ""
+    group: '{{ site.group }}'
+  when: site.maintainer != ""
 
 - name: mkdirs
   file:
     path: '{{ item }}'
     state: directory
-    owner: '{{ fpm_site.maintainer }}'
-    group: '{{ fpm_site.user }}'
+    owner: '{{ site.maintainer }}'
+    group: '{{ site.user }}'
     mode: '2770'
   with_items:
-    - '{{ fpm_site.sessions_path }}'
-    - '{{ fpm_site.tmpdir }}'
-    - '{{ fpm_site.upload_dir }}'
+    - '{{ site.sessions_path }}'
+    - '{{ site.tmpdir }}'
+    - '{{ site.upload_dir }}'
   when: item | match("^/.*")
 
 - name: rsync home
   synchronize:
     compress: no
-    dest: '{{ fpm_site.home }}/'
-    src: '{{ fpm_site.id }}/home/'
+    dest: '{{ site.home }}/'
+    src: '{{ site.id }}/home/'
   with_first_found:
-    - 'files/{{ fpm_site.id }}/home'
+    - 'files/{{ site.id }}/home'
     - skip: True
 
 - name: chown home
   file:
     state: directory
-    owner: '{{ fpm_site.maintainer }}'
-    group: '{{ fpm_site.group }}'
+    owner: '{{ site.maintainer }}'
+    group: '{{ site.group }}'
     recurse: yes
-    path: '{{ fpm_site.home }}'
+    path: '{{ site.home }}'
 
 - name: site cron(s)
   cron: '{{ item }}'
-  with_items: '{{ fpm_site.crons }}'
+  with_items: '{{ site.crons }}'
 
 - name: phpapp git code
   git:
-    dest: '{{ item.dest | default(fpm_site.rootdir) | regex_replace("^([^/])",fpm_site.home+"/\1") }}'
+    dest: '{{ item.dest | default(site.rootdir) | regex_replace("^([^/])",site.home+"/\1") }}'
     repo: '{{ item.repo }}'
     umask: '{{ item.umask | default("0022") }}'
     version: '{{ item.version | default("master") }}'
     accept_hostkey: yes
     update: '{{ item.update | default(0) | bool() }}'
-  with_items: '{{ fpm_site.gits }}'
-  when: '"gits" in fpm_site'
+  with_items: '{{ site.gits }}'
+  when: '"gits" in site'
   register: fpmgitdirs
 
 - name: chown git code
   file:
     state: directory
-    path: '{{ item.dest | default(fpm_site.rootdir) | regex_replace("^([^/])",fpm_site.home+"/\1") }}'
+    path: '{{ item.dest | default(site.rootdir) | regex_replace("^([^/])",site.home+"/\1") }}'
     recurse: yes
-    owner: '{{ item.owner | default(fpm_site.maintainer) }}'
-    group: '{{ item.group | default(fpm_site.group) }}'
+    owner: '{{ item.owner | default(site.maintainer) }}'
+    group: '{{ item.group | default(site.group) }}'
     mode: '{{ item.mode | default("u=rwX,g=rX,o-rwx") }}'
-  with_items: '{{ fpm_site.gits }}'
-  when: '"gits" in fpm_site and fpmgitdirs.changed'
+  with_items: '{{ site.gits }}'
+  when: '"gits" in site and fpmgitdirs.changed'
 
 - name: phpapp config dir(s)
   file:
     state: directory
-    path: '{{ item.dest | regex_replace("^([^/])",fpm_site.rootdir+"/\1") | regex_replace("/[^/]+$","") }}'
+    path: '{{ item.dest | regex_replace("^([^/])",site.rootdir+"/\1") | regex_replace("/[^/]+$","") }}'
     mode: '0751'
-    owner: '{{ item.owner | default(fpm_site.maintainer) }}'
-    group: '{{ item.group | default(fpm_site.group) }}'
-  with_items: '{{ fpm_site.configfiles }}'
-  when: '"configfiles" in fpm_site'
+    owner: '{{ item.owner | default(site.maintainer) }}'
+    group: '{{ item.group | default(site.group) }}'
+  with_items: '{{ site.configfiles }}'
+  when: '"configfiles" in site'
 
 - name: phpapp config files
   template:
     src: '{{ item.src }}'
-    dest: '{{ item.dest | regex_replace("^([^/])",fpm_site.rootdir+"/\1") }}'
+    dest: '{{ item.dest | regex_replace("^([^/])",site.rootdir+"/\1") }}'
     mode: '{{ item.mode | default("0640") }}'
-    owner: '{{ item.owner | default(fpm_site.maintainer) }}'
-    group: '{{ item.group | default(fpm_site.group) }}'
-  with_items: '{{ fpm_site.configfiles }}'
-  when: '"configfiles" in fpm_site'
+    owner: '{{ item.owner | default(site.maintainer) }}'
+    group: '{{ item.group | default(site.group) }}'
+    backup: yes
+  with_items: '{{ site.configfiles }}'
+  when: '"configfiles" in site'
 
-- name: fpm_site config
+- name: site config
   template:
     src: fpm-site.conf.j2
-    dest: '{{ fpm_pools_dir }}/{{ fpm_site.id }}.conf'
+    dest: '{{ fpm_pools_dir }}/{{ site.id }}.conf'
   notify: reload fpm
 
 - name: nginx config
   include_role:
     name: criecm.nginx
+    tasks_from: vhost.yml
   vars:
-    sites: '[ {{ fpm_site }} ]'
-  when: 'fpm_site.webserver_role == "criecm.nginx"'
+    vhost: '{{ site }}'
+  when: 'site.webserver_role == "criecm.nginx"'
 
 - name: apache config
   include_role:
     name: criecm.apache
+    tasks_from: vhost.yml
   vars:
-    sites: '[ {{ fpm_site }} ]'
-  when: 'fpm_site.webserver_role == "criecm.apache"'
+    vhost: '{{ site }}'
+  when: 'site.webserver_role == "criecm.apache"'
+
+- name: set mysites
+  set_fact:
+    mysites: '{{ sites }}'
+    sites: ''
+
+- name: reset sites
+  set_fact:
+    sites: '{{ mysites | selectattr("id","!=",site.id) | list }}'
+
+#- debug: var=sites
