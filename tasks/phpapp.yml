@@ -74,7 +74,7 @@
     umask: '{{ item.umask | default("0022") }}'
     version: '{{ item.version | default("master") }}'
     accept_hostkey: yes
-    update: '{{ item.update | default(0) | bool() }}'
+    update: '{{ item.maj | default(0) | bool() }}'
   with_items: '{{ site.gits }}'
   when: '"gits" in site'
   register: fpmgitdirs
@@ -133,13 +133,3 @@
     vhost: '{{ site }}'
   when: 'site.webserver_role == "criecm.apache"'
 
-- name: set mysites
-  set_fact:
-    mysites: '{{ sites }}'
-    sites: ''
-
-- name: reset sites
-  set_fact:
-    sites: '{{ mysites | selectattr("id","!=",site.id) | list }}'
-
-#- debug: var=sites
