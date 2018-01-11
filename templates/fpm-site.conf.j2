@@ -34,9 +34,9 @@ catch_workers_output = yes
 
 env[HOSTNAME] = {{ site.name }}
 env[PATH] = {{ site.path | default("/bin:/usr/bin:/usr/local/bin") }}
-env[TMP] = {{ site.tmpdir }}
-env[TEMP] = {{ site.tmpdir }}
-env[TMPDIR] = {{ site.tmpdir }}
+env[TMP] = {{ site.tmp_dir }}
+env[TEMP] = {{ site.tmp_dir }}
+env[TMPDIR] = {{ site.tmp_dir }}
 
 php_value[session.save_path] = {{ site.sessions_path }}
 php_value[error_log] = {{ site.error_log }}

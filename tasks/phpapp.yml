@@ -42,7 +42,7 @@
     mode: '2770'
   with_items:
     - '{{ site.sessions_path }}'
-    - '{{ site.tmpdir }}'
+    - '{{ site.tmp_dir }}'
     - '{{ site.upload_dir }}'
   when: item | match("^/.*")
 
@@ -54,6 +54,7 @@
   with_first_found:
     - 'files/{{ site.id }}/home'
     - skip: True
+  register: rsync_home
 
 - name: chown home
   file:
@@ -62,6 +63,7 @@
     group: '{{ site.group }}'
     recurse: yes
     path: '{{ site.home }}'
+  when: rsync_home.changed
 
 - name: site cron(s)
   cron: '{{ item }}'

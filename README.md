@@ -101,6 +101,8 @@ example for cli-specific ini file on a freebsd host: first match will win from:
 
 * `error_log` (`{{fpm_error_log}}`): error log file for this site
 
+* `tmp_dir` ({{ tmpdir }}/tmp): TMPDIR, php tmpdir, ...
+
 * `sessions_path` (/home/{{id}}/sessions): [[http://php.net/manual/fr/session.configuration.php#ini.session.save-path|session.save-path]]
 
 * `upload_dir` (/home/{{id}}/tmp): [[http://php.net/manual/fr/ini.core.php#ini.upload-tmp-dir|upload-tmp-dir]]

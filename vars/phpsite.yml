@@ -18,7 +18,8 @@ default_fpm_site:
   pm_start: 5
   pm_max_spare: 10
   home: '/home/{{ phpsite.id }}'
-  tmpdir: '{{ phpsite.tmpdir | default("/home/"+phpsite.id+"/tmp/tmp") }}'
+  tmpdir: '{{ phpsite.tmpdir | default("/home/"+phpsite.id+"/tmp") }}'
+  tmp_dir: '{{ phpsite.tmp | default("/home/"+phpsite.id+"/tmp") }}/tmp'
   php_flags: {}
   php_values: {}
   php_admin_flags: {}
