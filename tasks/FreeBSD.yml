@@ -5,6 +5,7 @@
     state: present
   with_items:
     - '{{ fpm_pkg_name }}'
+  notify: restart fpm
 
 - name: enable php-fpm
   lineinfile:
