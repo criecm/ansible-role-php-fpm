@@ -64,7 +64,7 @@ example for cli-specific ini file on a freebsd host: first match will win from:
   and MAY provide (default):
   * `dest`: destination directory (`{{rootdir}}`)
   * `umask`: ('0022')
-  * `maj`: whether to update existing repo (no)
+  * `update`: whether to update existing repo (no)
   * `version`: tag or branch (master)
   * `owner`: owner of files (`{{maintainer}}`)
   * `group`: group for files (`{{group}}`)
