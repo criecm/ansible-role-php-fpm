@@ -76,7 +76,7 @@
     umask: '{{ item.umask | default("0022") }}'
     version: '{{ item.version | default("master") }}'
     accept_hostkey: yes
-    update: '{{ item.maj | default(0) | bool() }}'
+    update: '{{ item.update | default(0) | bool() }}'
   with_items: '{{ site.gits }}'
   when: '"gits" in site'
   register: fpmgitdirs
