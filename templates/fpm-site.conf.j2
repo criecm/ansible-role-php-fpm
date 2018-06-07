@@ -5,7 +5,7 @@ group = {{ site.group | default("_"+site.id) }}
 
 listen = {{ site.fcgisocket }}
 
-{% if site.fcgisocket | match("\/.*") %}
+{% if site.fcgisocket is match("\/.*") %}
 listen.owner = {{ www_user }}
 listen.group = {{ www_group }}
 listen.mode = 660
@@ -16,7 +16,7 @@ listen.allowed_clients = {{ site.fcgisocket | regex_replace(":.*$","") }}
 pm = {{ site.pm }}
 pm.max_children = {{ site.pm_max }}
 pm.max_requests = {{ site.pm_max_requests }}
-{% if site.pm | match("ondemand") %}
+{% if site.pm is match("ondemand") %}
 pm.process_idle_timeout = {{ site.pm_idle_timeout }}
 {% else %}
 pm.start_servers = {{ site.pm_start }}

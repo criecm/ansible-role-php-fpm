@@ -44,7 +44,7 @@
     - '{{ site.sessions_path }}'
     - '{{ site.tmp_dir }}'
     - '{{ site.upload_dir }}'
-  when: item | match("^/.*")
+  when: item is match("^/.*")
 
 - name: rsync home
   synchronize:
