@@ -77,6 +77,7 @@
     version: '{{ item.version | default("master") }}'
     accept_hostkey: yes
     update: '{{ item.maj | default("no") }}'
+    force: '{{ item.force | default("no") }}'
   with_items: '{{ site.gits }}'
   when: '"gits" in site'
   register: fpmgitdirs
