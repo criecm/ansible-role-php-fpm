@@ -18,7 +18,7 @@
     shell: /usr/sbin/nologin
     comment: 'php-fpm {{ site.user }}'
     home: /nonexistent
-    createhome: no
+    create_home: no
     group: '{{ site.group }}'
     login_class: daemon
     state: present
@@ -29,7 +29,7 @@
     shell: /bin/sh
     home: '{{ site.home }}'
     comment: 'maintenance user for php {{ site.user }}'
-    createhome: yes
+    create_home: yes
     group: '{{ site.group }}'
   when: site.maintainer != ""
 
