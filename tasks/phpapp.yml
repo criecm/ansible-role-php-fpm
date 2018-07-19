@@ -38,7 +38,7 @@
     path: '{{ item }}'
     state: directory
     owner: '{{ site.maintainer }}'
-    group: '{{ site.user }}'
+    group: '{{ site.group }}'
     mode: '2770'
   with_items:
     - '{{ site.sessions_path }}'
@@ -89,7 +89,7 @@
     recurse: yes
     owner: '{{ item.owner | default(site.maintainer) }}'
     group: '{{ item.group | default(site.group) }}'
-    mode: '{{ item.mode | default("u=rwX,g=rX,o-rwx") }}'
+    mode: '{{ item.mode | default("u=rwX,g=rX,o-w") }}'
   with_items: '{{ site.gits }}'
   when: '"gits" in site and fpmgitdirs.changed'
 
