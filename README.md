@@ -47,11 +47,11 @@ example for cli-specific ini file on a freebsd host: first match will win from:
 
 ### optional (default value)
 
-* `user` (_{{id}}): System user to run php
+* `user (_{{id}})`: System user to run php
 
 * `maintainer` ({{id}}): Maintenance user for the app (with shell and home)
 
-* `group` (_{{id}}): Common group for user and maintainer
+* `group (_{{id}})`: Common group for user and maintainer
 
 * `home` (/home/{{id}}): Home of 'maintainer' and base for other default values (tmpdir, rootdir, ...)
   if a directory playbook/files/{{ id }}/home exists, it will be used as a template for the homedir
