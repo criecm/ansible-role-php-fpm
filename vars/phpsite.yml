@@ -6,10 +6,12 @@
 #
 # all other values can be overriden by site dict vars (site has precedence over default_fpm_site)
 ---
+site_home: '{{ phpsite.home | default("/home/"+phpsite.id) }}'
+
 default_fpm_site:
   id: default
   name: ''
-  rootdir: '{{ phpsite.home | default("/home/"+phpsite.id) }}/{{ phpsite.id }}'
+  rootdir: '{{ phpsite.home | default(site_home) }}/{{ phpsite.id }}'
   pm: ondemand
   pm_max: 200
   pm_max_requests: 500
@@ -18,8 +20,8 @@ default_fpm_site:
   pm_start: 5
   pm_max_spare: 10
   home: '/home/{{ phpsite.id }}'
-  tmpdir: '{{ phpsite.tmpdir | default("/home/"+phpsite.id+"/tmp") }}'
-  tmp_dir: '{{ phpsite.tmp | default("/home/"+phpsite.id+"/tmp") }}/tmp'
+  tmpdir: '{{ phpsite.tmpdir | default(site_home+"/tmp") }}'
+  tmp_dir: '{{ phpsite.tmp | default(site_home+"/tmp") }}/tmp'
   php_flags: {}
   php_values: {}
   php_admin_flags: {}
@@ -30,8 +32,8 @@ default_fpm_site:
   group: '_{{ phpsite.id }}'
   fcgi_status_path: /fpmstatus.php
   pingpath: /fpmping.php
-  sessions_path: '{{ phpsite.tmpdir | default("/home/"+phpsite.id+"/tmp") }}/sessions'
-  upload_dir: '{{ phpsite.tmpdir | default("/home/"+phpsite.id+"/tmp") }}/upload'
+  sessions_path: '{{ phpsite.tmpdir | default(site_home+"/tmp") }}/sessions'
+  upload_dir: '{{ phpsite.tmpdir | default(site_home+"/tmp") }}/upload'
   limit_openbasedir: True
   open_basedir_add: ''
   include_path: '.:{{ pear_path }}'
