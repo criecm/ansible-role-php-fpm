@@ -13,3 +13,6 @@ fpm_error_log: syslog
 fpm_log_level: notice
 
 proxified_by: []
+
+git_force: no
+git_update: no

@@ -33,6 +33,12 @@
     group: '{{ site.group }}'
   when: site.maintainer != ""
 
+- name: maintenance ssh keys
+  authorized_key:
+    key: '{{ item }}'
+    user: '{{ site.maintainer }}'
+  with_items: '{{ site.maintainer_ssh_keys | default([]) }}'
+
 - name: mkdirs
   file:
     path: '{{ item }}'
@@ -71,13 +77,13 @@
 
 - name: phpapp git code
   git:
-    dest: '{{ item.dest | default(site.rootdir) | regex_replace("^([^/])",site.home+"/\1") }}'
+    dest: '{{ item.dest | default(site.rootdir) | regex_replace("^([^/])",site.home+"/\\1") }}'
     repo: '{{ item.repo }}'
     umask: '{{ item.umask | default("0022") }}'
     version: '{{ item.version | default("master") }}'
     accept_hostkey: yes
-    update: '{{ item.maj | default("no") }}'
-    force: '{{ item.force | default("no") }}'
+    update: '{{ item.maj | default(git_update) }}'
+    force: '{{ item.force | default(git_force) }}'
   with_items: '{{ site.gits }}'
   when: '"gits" in site'
   register: fpmgitdirs
@@ -85,7 +91,7 @@
 - name: chown git code
   file:
     state: directory
-    path: '{{ item.dest | default(site.rootdir) | regex_replace("^([^/])",site.home+"/\1") }}'
+    path: '{{ item.dest | default(site.rootdir) | regex_replace("^([^/])",site.home+"/\\1") }}'
     recurse: yes
     owner: '{{ item.owner | default(site.maintainer) }}'
     group: '{{ item.group | default(site.group) }}'
