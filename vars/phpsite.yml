@@ -28,6 +28,8 @@ default_fpm_site:
   php_admin_values: {}
   debug: False
   user: '_{{ phpsite.id }}'
+  usershell: '/usr/sbin/nologin'
+  userhome: '/nonexistent'
   maintainer: '{{ phpsite.id }}'
   maintainer_ssh_keys: '{{ mainainers_ssh_keys | default([]) }}'
   group: '_{{ phpsite.id }}'

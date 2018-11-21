@@ -15,9 +15,9 @@
 - name: site user
   user:
     name: '{{ site.user }}'
-    shell: /usr/sbin/nologin
+    shell: '{{ site.usershell }}'
     comment: 'php-fpm {{ site.user }}'
-    home: /nonexistent
+    home: '{{ site.userhome }}'
     create_home: no
     group: '{{ site.group }}'
     login_class: daemon
