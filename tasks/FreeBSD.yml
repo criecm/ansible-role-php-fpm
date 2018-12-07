@@ -1,10 +1,8 @@
 ---
 - name: install php
   pkgng:
-    name: '{{ item }}'
+    name: '{{ fpm_pkg_name }}'
     state: present
-  with_items:
-    - '{{ fpm_pkg_name }}'
   notify: restart fpm
 
 - name: enable php-fpm
