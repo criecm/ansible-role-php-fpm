@@ -77,7 +77,7 @@
 
 - name: phpapp git code
   git:
-    dest: '{{ item.dest | default(site.rootdir) | regex_replace("^([^/])",site.home+"/\\1") }}'
+    dest: '{{ item.dest | default(site.rootdir) | regex_replace("^([^/])",site.home+"/\1") }}'
     repo: '{{ item.repo }}'
     umask: '{{ item.umask | default("0022") }}'
     version: '{{ item.version | default("master") }}'
