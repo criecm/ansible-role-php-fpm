@@ -13,14 +13,7 @@ There is a default php.ini in templates/php.ini.j2.
 CLI-specific php.ini use the same template by default
 same apply for FPM-specific php.ini (debian only)
 
-You can override by placing a template named after:
-  `php[-TYPE][-SYSTEM].ini.j2`
-
-example for cli-specific ini file on a freebsd host: first match will win from:
-  - php-cli-FreeBSD.ini.j2
-  - php-cli.ini.j2
-  - php-FreeBSD.ini.j2
-  - php.ini.j2
+php.ini vars can be forced with `php_ini_vars` dict
 
 ## Role variables (default value)
 
@@ -90,6 +83,8 @@ example for cli-specific ini file on a freebsd host: first match will win from:
 * `open_basedir_add` (''): path(es) to add to php `open_basedir` — string, separated by ':'
 
 * `upload_max_meg` (20): base to compute php `post_max_size` and `upload_max_filesize`, in Mo
+
+* `php_ini_vars ([])`: dict of default php.ini file
 
 * `php_values` ({}): additional php values for php.ini
 
