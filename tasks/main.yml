@@ -34,7 +34,6 @@
     when: php_ini_vars
     loop_control:
       loop_var: phpini
-  tags: phpfpm, config
   - name: php-fpm.ini
     lineinfile:
       dest: '{{ phpinifpmdest }}'
