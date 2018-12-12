@@ -20,7 +20,7 @@
       line: '{{ phpini.key }}={{ phpini.value }}'
       regexp: '^{{ phpini.key }}='
       insertafter: '{{ phpini.key }}'
-    with_dict: php_ini_vars
+    with_dict: '{{ php_ini_vars }}'
     when: php_ini_vars
     loop_control:
       loop_var: phpini
@@ -30,7 +30,7 @@
       line: '{{ phpini.key }}={{ phpini.value }}'
       regexp: '^{{ phpini.key }}='
       insertafter: '{{ phpini.key }}'
-    with_dict: php_ini_vars
+    with_dict: '{{ php_ini_vars }}'
     when: php_ini_vars
     loop_control:
       loop_var: phpini
@@ -40,7 +40,7 @@
       line: '{{ phpini.key }}={{ phpini.value }}'
       regexp: '^{{ phpini.key }}='
       insertafter: '{{ phpini.key }}'
-    with_dict: php_ini_vars
+    with_dict: '{{ php_ini_vars }}'
     when: php_ini_vars and phpinifpmdest
     loop_control:
       loop_var: phpini
