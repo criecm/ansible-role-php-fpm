@@ -16,3 +16,5 @@ proxified_by: []
 
 git_force: no
 git_update: no
+
+php_ini_vars: {}
