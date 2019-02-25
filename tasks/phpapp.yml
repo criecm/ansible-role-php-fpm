@@ -92,7 +92,7 @@
 - name: chown git code
   file:
     state: directory
-    path: '{{ item.dest | default(site.rootdir) | regex_replace("^([^/])",site.home+"/\\1") }}'
+    path: '{{ item.dest | default(site.rootdir) | regex_replace("^([^/])",site.home+"/\1") }}'
     recurse: yes
     owner: '{{ item.owner | default(site.maintainer) }}'
     group: '{{ item.group | default(site.group) }}'
