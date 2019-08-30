@@ -1,9 +1,11 @@
 # all vars are defined by hand or defaulted by vars/app.yml
 ---
 
-- include_vars: phpsite.yml
+- name: site vars
+  include_vars: phpsite.yml
 
-- set_fact:
+- name: facts site onesite
+  set_fact:
     site: '{{ default_fpm_site | combine(phpsite) }}'
     onesite: '{{ default_fpm_site | combine(phpsite) }}'
 
@@ -22,14 +24,14 @@
     group: '{{ site.group }}'
     login_class: daemon
     state: present
-  when: site.user != site.maintainer
+  when: site.user is not match(site.maintainer)
 
 - name: maintenance user
   user:
     name: '{{ site.maintainer }}'
     shell: /bin/sh
     home: '{{ site.home }}'
-    comment: 'maintenance user for php {{ site.user }}'
+    comment: 'real user for php {{ site.user }}'
     create_home: yes
     group: '{{ site.group }}'
   when: site.maintainer != ""
