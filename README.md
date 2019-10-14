@@ -112,7 +112,7 @@ php.ini vars can be forced with `php_ini_vars` dict
 
 * `pm_start` (5): for 'dynamic' pm: num processes started at boot
 
-* `pm_max_spares` (10): for 'dynamic' pm: max idle processes
+* `pm_max_spare` (10): for 'dynamic' pm: max idle processes
 
 * `fcgi_status_path` (/fpmstatus.php): path to reach fpm's status report
 
