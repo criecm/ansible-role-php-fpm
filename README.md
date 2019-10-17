@@ -120,3 +120,4 @@ php.ini vars can be forced with `php_ini_vars` dict
 
 * `debug` (False): activate `catch_workers_output` for this site
 
+* `host_timezone ("Europe/Paris") Time zone for php
