@@ -5,6 +5,20 @@
     state: present
   notify: restart fpm
 
+- name: php.ini
+  copy:
+    src: /usr/local/etc/php.ini-production
+    dest: /usr/local/etc/php.ini
+    force: no
+    remote_src: yes
+
+- name: php-cli.ini
+  copy:
+    src: /usr/local/etc/php.ini-development
+    dest: /usr/local/etc/php-cli.ini
+    force: no
+    remote_src: yes
+
 - name: enable php-fpm
   lineinfile:
     line: 'php_fpm_enable="YES"'
