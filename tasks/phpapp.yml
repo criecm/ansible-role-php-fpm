@@ -12,11 +12,13 @@
 - name: group
   group:
     name: '{{ site.group }}'
+    gid: '{{ site.uid | default(omit) }}'
     state: present
 
 - name: site user
   user:
     name: '{{ site.user }}'
+    uid: '{{ site.uid | default(omit) }}'
     shell: '{{ site.usershell }}'
     comment: 'php-fpm {{ site.user }}'
     home: '{{ site.userhome }}'
