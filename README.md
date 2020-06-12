@@ -44,6 +44,8 @@ php.ini vars can be forced with `php_ini_vars` dict
 
 * `maintainer` ({{id}}): Maintenance user for the app (with shell and home)
 
+* `maintainer_pass ()`: password for shell user
+
 * `group (_{{id}})`: Common group for user and maintainer
 
 * `home` (/home/{{id}}): Home of 'maintainer' and base for other default values (tmpdir, rootdir, ...)

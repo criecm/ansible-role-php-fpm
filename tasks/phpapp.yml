@@ -35,6 +35,8 @@
     home: '{{ site.home }}'
     comment: 'real user for php {{ site.user }}'
     create_home: yes
+    password: '{{ site.maintainer_pass | default(omit) }}'
+    update_password: on_create
     group: '{{ site.group }}'
   when: site.maintainer != ""
 
