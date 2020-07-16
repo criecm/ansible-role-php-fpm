@@ -25,6 +25,8 @@ php.ini vars can be forced with `php_ini_vars` dict
 
 * `fpm_log_level` (notice): log level (alert, error, warning, notice, debug)
 
+* `php_fpm_umask` (): umask (FreeBSD only)
+
 * `www_user` and `www_group` (system dependant)
   webserver user and group
 

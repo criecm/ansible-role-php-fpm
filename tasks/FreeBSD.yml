@@ -25,3 +25,13 @@
     state: present
     regexp: '^php_fpm_enable='
     dest: /etc/rc.conf
+
+- name: umask php-fpm
+  lineinfile:
+    line: 'php_fpm_umask="{{ php_fpm_umask | default("022") }}"'
+    state: present
+    regexp: '^php_fpm_umask='
+    dest: /etc/rc.conf
+  when: php_fpm_umask | default(False)
+  notify: restart fpm
+
