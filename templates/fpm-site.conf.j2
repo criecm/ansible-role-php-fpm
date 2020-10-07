@@ -30,6 +30,8 @@ chdir = {{ site.home | default("/home/"+site.id+"/"+site.id) }}
 
 {% if site.debug %}
 catch_workers_output = yes
+{% else %}
+;catch_workers_output = yes
 {% endif %}
 
 env[HOSTNAME] = {{ site.name }}
