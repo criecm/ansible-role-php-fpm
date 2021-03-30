@@ -8,12 +8,8 @@ Calls webserver role (nginx by default) per site to create HTTP confs
 
 ## php.ini
 
-There is a default php.ini in templates/php.ini.j2.
-
-CLI-specific php.ini use the same template by default
-same apply for FPM-specific php.ini (debian only)
-
 php.ini vars can be forced with `php_ini_vars` dict
+php-cli.ini additional vars can be set with `php_cli_vars` dict
 
 ## Role variables (default value)
 
@@ -89,6 +85,11 @@ php.ini vars can be forced with `php_ini_vars` dict
 * `upload_max_meg` (20): base to compute php `post_max_size` and `upload_max_filesize`, in Mo
 
 * `php_ini_vars ([])`: dict of default php.ini file
+   * `date.timezone (host_timezone)`
+
+* `php_cli_vars ([])`: dict of default php-cli.ini file (added to `php_ini_vars`)
+   * `display_errors: on`
+   * `display_startup_errors: on`
 
 * `php_values` ({}): additional php values for php.ini
 

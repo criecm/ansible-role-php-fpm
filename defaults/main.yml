@@ -17,7 +17,10 @@ proxified_by: []
 git_force: no
 git_update: no
 
-php_ini_vars: {}
+php_ini_vars:
+  include_path: ".:{{ pear_path }}"
+  user_agent: "{{ ansible_hostname }} mailer"
+  date.timezone: '{{ host_timezone | default("Europe/Paris") }}'
 
 php_cli_vars:
   display_errors: "on"
