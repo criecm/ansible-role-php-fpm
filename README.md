@@ -26,6 +26,12 @@ php-cli.ini additional vars can be set with `php_cli_vars` dict
 * `www_user` and `www_group` (system dependant)
   webserver user and group
 
+* `php_version` (detected or 7.4): php version to install/use.
+
+* `php_upgrade` (False): if `php_version` differs from installed, do we want to upgrade it ?
+
+* `php_modules` ([]): list of modules to install
+
 * `sites`: list of dicts, see above
 
 ## per-site variables (default value)

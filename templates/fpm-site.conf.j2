@@ -50,7 +50,7 @@ php_admin_value[memory_limit] = {{ site.memory_limit }}M
 php_admin_flag[display_errors] = {% if site.debug %}on{% else %}off{% endif %}
 
 {% if site.limit_openbasedir %}
-php_admin_value[open_basedir] = {{ site.home }}:{{ site.rootdir }}:{{ pear_path }}:/etc/ssl{% if site.open_basedir_add %}:{{ site.open_basedir_add }}
+php_admin_value[open_basedir] = {{ site.home }}:{{ site.rootdir }}:{{ pear_path }}:/etc/ssl{% if ansible_system == "FreeBSD" %}:/usr/local/etc/ssl{% endif %}{% if site.open_basedir_add %}:{{ site.open_basedir_add }}
 {% endif %}
 {% endif %}
 

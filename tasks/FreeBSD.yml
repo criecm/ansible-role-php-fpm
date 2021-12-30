@@ -5,6 +5,21 @@
     state: present
   notify: restart fpm
 
+- name: list php packages names
+  shell: 'pkg search -L name php{{ php_version | regex_replace("\.","") }} | cut -d" " -f1'
+  register: php_packages_available
+  check_mode: False
+  ignore_errors: True
+  changed_when: False
+
+- name: install php packages
+  pkgng:
+    state: present
+    name: '{{ item }}'
+  loop: '{{ php_packages_available.stdout_lines }}'
+  when: item | regex_replace("^.*-","") in php_modules
+  notify: restart fpm
+
 - name: php.ini
   copy:
     src: /usr/local/etc/php.ini-production

@@ -4,3 +4,9 @@
     name: '{{ fpm_pkg_name }}'
     state: present
   notify: restart fpm
+
+- name: install php modules
+  apt:
+    name: 'php-{{ item }}'
+    state: present
+  notify: restart fpm

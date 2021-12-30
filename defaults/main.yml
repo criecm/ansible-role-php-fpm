@@ -1,6 +1,8 @@
 ---
 php_version: 7.4
 
+php_upgrade: False
+
 sites: []
 
 monitoring_from:
