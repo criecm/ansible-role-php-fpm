@@ -59,14 +59,19 @@
     - '{{ site.upload_dir }}'
   when: item is match("^/.*")
 
+- name: search home backup
+  set_fact:
+    _home_backup: "{{ lookup('first_found', dirs, skip=True) }}"
+  vars:
+    dirs:
+      - 'files/{{ site.id }}/home'
+
 - name: rsync home
   synchronize:
     compress: no
     dest: '{{ site.home }}/'
-    src: '{{ site.id }}/home/'
-  with_first_found:
-    - 'files/{{ site.id }}/home'
-    - skip: True
+    src: '{{ _home_backup }}/'
+  when: '_home_backup != []'
   register: rsync_home
 
 - name: chown home
