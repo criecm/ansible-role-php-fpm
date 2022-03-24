@@ -22,7 +22,7 @@
     shell: '{{ site.usershell }}'
     comment: 'php-fpm {{ site.user }}'
     home: '{{ site.userhome }}'
-    create_home: no
+    create_home: yes
     group: '{{ site.group }}'
     login_class: daemon
     state: present
@@ -58,30 +58,6 @@
     - '{{ site.tmp_dir }}'
     - '{{ site.upload_dir }}'
   when: item is match("^/.*")
-
-- name: search home backup
-  set_fact:
-    _home_backup: "{{ lookup('first_found', dirs, skip=True) }}"
-  vars:
-    dirs:
-      - 'files/{{ site.id }}/home'
-
-- name: rsync home
-  synchronize:
-    compress: no
-    dest: '{{ site.home }}/'
-    src: '{{ _home_backup }}/'
-  when: '_home_backup != []'
-  register: rsync_home
-
-- name: chown home
-  file:
-    state: directory
-    owner: '{{ site.maintainer }}'
-    group: '{{ site.group }}'
-    recurse: yes
-    path: '{{ site.home }}'
-  when: rsync_home.changed
 
 - name: site cron(s)
   cron:
