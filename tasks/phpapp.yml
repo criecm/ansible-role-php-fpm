@@ -88,7 +88,8 @@
     force: '{{ item.force | default(git_force) }}'
   with_items: '{{ site.gits }}'
   when: '"gits" in site'
-  become_user: '{{ site.user }}'
+  become: yes
+  become_user: '{{ site.maintainer }}'
   become_method: su
   register: fpmgitdirs
 
