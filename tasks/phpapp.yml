@@ -88,6 +88,8 @@
     force: '{{ item.force | default(git_force) }}'
   with_items: '{{ site.gits }}'
   when: '"gits" in site'
+  become_user: '{{ site.user }}'
+  become_method: su
   register: fpmgitdirs
 
 - name: chown git code
