@@ -34,6 +34,9 @@ php-cli.ini additional vars can be set with `php_cli_vars` dict
 
 * `sites`: list of dicts, see above
 
+* `mysite ('')`: if defined, only this site will be processed
+  (use `ansible-playbook ... -e mysite=thisone` where `thisone` is your site's `id`)
+
 ## per-site variables (default value)
 
 ### mandatory

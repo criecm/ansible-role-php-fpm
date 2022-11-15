@@ -76,7 +76,7 @@
   with_items: '{{ sites }}'
   loop_control:
     loop_var: phpsite
-  when: '"backend" in phpsite and phpsite.backend == "php-fpm"'
+  when: '"backend" in phpsite and phpsite.backend == "php-fpm" and ( mysite == "" or mysite == phpsite.id )'
   tags: phpfpm, sites
 
 - name: start php-fpm
