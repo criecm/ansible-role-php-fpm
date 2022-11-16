@@ -17,7 +17,7 @@
     state: present
     name: '{{ item }}'
   loop: '{{ php_packages_available.stdout_lines }}'
-  when: item | regex_replace("^.*-","") in php_modules | default([])
+  when: item | regex_replace("^.*-(pecl-)?","") in php_modules | default([])
   notify: restart fpm
 
 - name: php.ini

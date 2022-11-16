@@ -22,7 +22,7 @@
     shell: '{{ site.usershell }}'
     comment: 'php-fpm {{ site.user }}'
     home: '{{ site.userhome }}'
-    create_home: yes
+    create_home: no
     group: '{{ site.group }}'
     login_class: daemon
     state: present
