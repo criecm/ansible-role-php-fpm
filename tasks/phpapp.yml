@@ -104,6 +104,14 @@
   with_items: '{{ site.gits }}'
   when: '"gits" in site and fpmgitdirs.changed'
 
+- name: chown rootdir to maintainer
+  file:
+    path: '{{ site.rootdir }}'
+    state: directory
+    owner: '{{ site.maintainer }}'
+    group: '{{ site.group }}'
+    mode: '0755'
+
 - name: phpapp config dir(s)
   file:
     state: directory
