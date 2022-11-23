@@ -46,6 +46,7 @@ default_fpm_site:
   fcgisocket: '/var/run/{{ phpsite.id }}.sock'
   webserver_role: criecm.nginx
   default_index: index.php
+  otherphpbackend: False
   crons: []
 
 #site: '{{ default_fpm_site | combine(phpsite) }}'

@@ -26,7 +26,7 @@
     group: '{{ site.group }}'
     login_class: daemon
     state: present
-  when: site.user is not match(site.maintainer)
+  when: not site.otherphpbackend and site.user is not match(site.maintainer)
 
 - name: maintenance user
   user:
@@ -38,13 +38,14 @@
     password: '{{ site.maintainer_pass | default(omit) }}'
     update_password: on_create
     group: '{{ site.group }}'
-  when: site.maintainer != ""
+  when: not site.otherphpbackend and site.maintainer != ""
 
 - name: maintenance ssh keys
   authorized_key:
     key: '{{ item }}'
     user: '{{ site.maintainer }}'
   with_items: '{{ site.maintainer_ssh_keys | default([]) }}'
+  when: not site.otherphpbackend
 
 - name: mkdirs
   file:
@@ -57,7 +58,7 @@
     - '{{ site.sessions_path }}'
     - '{{ site.tmp_dir }}'
     - '{{ site.upload_dir }}'
-  when: item is match("^/.*")
+  when: not site.otherphpbackend and item is match("^/.*")
 
 - name: site cron(s)
   cron:
@@ -111,6 +112,7 @@
     owner: '{{ site.maintainer }}'
     group: '{{ site.group }}'
     mode: '0755'
+  when: not site.otherphpbackend
 
 - name: phpapp config dir(s)
   file:
@@ -139,6 +141,7 @@
     src: fpm-site.conf.j2
     dest: '{{ fpm_pools_dir }}/{{ site.id }}.conf'
   notify: reload fpm
+  when: not site.otherphpbackend
 
 - name: nginx config
   include_role:

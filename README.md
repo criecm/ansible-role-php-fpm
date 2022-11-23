@@ -135,3 +135,5 @@ php-cli.ini additional vars can be set with `php_cli_vars` dict
 * `debug` (False): activate `catch_workers_output` for this site
 
 * `host_timezone ("Europe/Paris") Time zone for php
+
+* `otherphpbackend (False)` usefull to skip php-fpm for this site (mutualized fpm for many sites)
