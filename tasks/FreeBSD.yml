@@ -43,10 +43,25 @@
 
 - name: umask php-fpm
   lineinfile:
-    line: 'php_fpm_umask="{{ php_fpm_umask | default("022") }}"'
+    line: 'php_fpm_umask="{{ php_fpm_umask }}"'
     state: present
     regexp: '^php_fpm_umask='
     dest: /etc/rc.conf
-  when: php_fpm_umask | default(False)
+  when: php_fpm_umask != '022'
   notify: restart fpm
 
+- name: login.conf umask
+  blockinfile:
+    dest: /etc/login.conf
+    marker: '# {mark} ANSIBLE MANAGED umask for php-fpm and maintainers #'
+    block: |
+      php:
+        :umask={{ php_fpm_umask }}:\
+        :tc=default:
+    validate: cap_mkdb %s
+  when: php_fpm_umask != '022'
+  register: loginconfumask
+
+- name: cap_mkdb
+  command: 'cap_mkdb /etc/login.conf'
+  when: loginconfumask.changed

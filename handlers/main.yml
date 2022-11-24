@@ -8,3 +8,6 @@
   service:
     name: '{{ fpm_service }}'
     state: reloaded
+
+- name: rebuild login.conf database
+  command: /usr/bin/cap_mkdb /etc/login.conf

@@ -51,6 +51,10 @@ php-cli.ini additional vars can be set with `php_cli_vars` dict
 
 * `maintainer` ({{id}}): Maintenance user for the app (with shell and home)
 
+* `maintainer_shell ({{ php_maintainer_shell | default("/bin/sh") }})`: shell for shell user
+
+* `maintainer_ssh_keys ([])`: list of ssh keys strings to authorize for shell user
+
 * `maintainer_pass ()`: password for shell user
 
 * `group (_{{id}})`: Common group for user and maintainer

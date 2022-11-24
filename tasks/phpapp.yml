@@ -22,6 +22,7 @@
     shell: '{{ site.usershell }}'
     comment: 'php-fpm {{ site.user }}'
     home: '{{ site.userhome }}'
+    login_class: php
     create_home: no
     group: '{{ site.group }}'
     login_class: daemon
@@ -31,9 +32,10 @@
 - name: maintenance user
   user:
     name: '{{ site.maintainer }}'
-    shell: /bin/sh
+    shell: '{{ site.maintainer_shell }}'
     home: '{{ site.home }}'
     comment: 'real user for php {{ site.user }}'
+    login_class: php
     create_home: yes
     password: '{{ site.maintainer_pass | default(omit) }}'
     update_password: on_create

@@ -29,3 +29,7 @@ php_ini_vars:
 php_cli_vars:
   display_errors: "on"
   display_startup_errors: "on"
+
+php_maintainer_shell: /bin/sh
+
+php_fpm_umask: '002'

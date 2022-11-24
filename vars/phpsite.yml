@@ -31,6 +31,7 @@ default_fpm_site:
   usershell: '/usr/sbin/nologin'
   userhome: '/nonexistent'
   maintainer: '{{ phpsite.id }}'
+  maintainer_shell: '{{ php_maintainer_shell }}'
   maintainer_ssh_keys: '{{ mainainers_ssh_keys | default([]) }}'
   group: '_{{ phpsite.id }}'
   fcgi_status_path: /fpmstatus.php
