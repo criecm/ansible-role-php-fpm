@@ -1,4 +1,25 @@
 ---
+- name: list installed php
+  command: 'pkg query -x %n php'
+  check_mode: False
+  ignore_errors: True
+  changed_when: False
+  register: pkg_query_php
+
+- name: get installed php version
+  set_fact:
+    installed_php_version: '{% if pkg_query_php.stdout_lines | length > 0 %}{{ pkg_query_php.stdout_lines | select("match","php[0-9][0-9]$") | first | regex_replace("php","") | int }}{% else %}{% endif %}'
+    wanted_php_version: '{{ php_version | regex_replace("\.","") | int }}'
+
+- name: upgrade php if needed
+  shell: "pkg query -x %n php{{ installed_php_version }} | while read p; do pkg set -yn $p:$(echo $p|sed 's/php{{ installed_php_version }}/php{{ wanted_php_version }}/'); done"
+  when: installed_php_version != '' and installed_php_version != wanted_php_version
+  register: upgradedphp
+
+- name: pkg upgrade forced on php upgrade
+  command: "pkg upgrade -y"
+  when: upgradedphp.changed
+
 - name: install php
   pkgng:
     name: '{{ fpm_pkg_name }}'
