@@ -54,7 +54,7 @@ php_admin_value[open_basedir] = {{ site.home }}:{{ site.rootdir }}:{{ pear_path 
 {% endif %}
 {% endif %}
 
-php_admin_value[post_max_size] = {{ ( site.upload_max_meg * 1.5 ) | int }}M
+php_admin_value[post_max_size] = {{ ( ( site.upload_max_meg | int ) * 1.5 ) | int }}M
 php_admin_value[upload_max_filesize] = {{ site.upload_max_meg }}M
 
 {% for k, v in site.php_values.items() %}
