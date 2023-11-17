@@ -12,12 +12,14 @@
     wanted_php_version: '{{ php_version | regex_replace("\.","") | int }}'
 
 - name: upgrade php if needed
-  shell: "pkg query -x %n php{{ installed_php_version }} | while read p; do pkg set -yn $p:$(echo $p|sed 's/php{{ installed_php_version }}/php{{ wanted_php_version }}/'); done"
+  shell: "pkg query -x %n php{{ installed_php_version }} | while read p; do echo 'upgrade $p'; pkg set -yn $p:$(echo $p|sed 's/php{{ installed_php_version }}/php{{ wanted_php_version }}/'); done"
   when: installed_php_version != '' and installed_php_version != wanted_php_version
+  changed_when: upgradedphp.stdout is search("upgrade")
   register: upgradedphp
 
 - name: pkg upgrade forced on php upgrade
-  command: "pkg upgrade -y"
+  command: "pkg upgrade -fy"
+  notify: restart fpm
   when: upgradedphp.changed
 
 - name: install php
