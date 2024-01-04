@@ -22,6 +22,11 @@
   notify: restart fpm
   when: upgradedphp.changed
 
+- name: force reinstall of pecl packages on upgrade
+  shell: "pkg install -f $(pkg query -x %n php{{ wanted_php_version }}-pecl)"
+  notify: restart fpm
+  when: upgradedphp.changed and pkg_query_php.stdout_lines | select("match","php[0-9][0-9]-pecl-.*") | count > 0
+
 - name: install php
   pkgng:
     name: '{{ fpm_pkg_name }}'
