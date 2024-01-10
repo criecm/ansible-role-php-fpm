@@ -25,7 +25,6 @@
     login_class: php
     create_home: no
     group: '{{ site.group }}'
-    login_class: daemon
     state: present
   when: not site.otherphpbackend and site.user is not match(site.maintainer)
 
@@ -92,7 +91,7 @@
   with_items: '{{ site.gits }}'
   when: '"gits" in site'
   become: yes
-  become_user: '{{ site.maintainer }}'
+  become_user: '{{ item.owner | default(site.maintainer) }}'
   become_method: su
   register: fpmgitdirs
 
@@ -101,11 +100,14 @@
     state: directory
     path: '{{ item.dest | default(site.rootdir) | regex_replace("^([^/])",site.home+"/\1") }}'
     recurse: yes
-    owner: '{{ item.owner | default(site.maintainer) }}'
     group: '{{ item.group | default(site.group) }}'
     mode: '{{ item.mode | default("u=rwX,g=rX,o-w") }}'
   with_items: '{{ site.gits }}'
   when: '"gits" in site and fpmgitdirs.changed'
+  become: yes
+  become_user: '{{ site.maintainer }}'
+  become_method: su
+  failed_when: False
 
 - name: chown rootdir to maintainer
   file:
@@ -113,7 +115,7 @@
     state: directory
     owner: '{{ site.maintainer }}'
     group: '{{ site.group }}'
-    mode: '0755'
+    mode: 'o-w'
   when: not site.otherphpbackend
 
 - name: phpapp config dir(s)
