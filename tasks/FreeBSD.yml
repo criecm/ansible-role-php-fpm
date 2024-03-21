@@ -30,7 +30,7 @@
 - name: install php
   pkgng:
     name: '{{ fpm_pkg_name }}'
-    state: present
+    state: '{% if do_upgrade | default(False) %}latest{% else %}present{% endif %}'
   notify: restart fpm
 
 - name: list php packages names
