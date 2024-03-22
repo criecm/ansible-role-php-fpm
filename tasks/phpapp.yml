@@ -103,7 +103,7 @@
     group: '{{ item.group | default(site.group) }}'
     mode: '{{ item.mode | default("u=rwX,g=rX,o-w") }}'
   with_items: '{{ site.gits }}'
-  when: '"gits" in site and fpmgitdirs.changed'
+  when: '"gits" in site and fpmgitdirs.changed and php_fpm_chown_code | default(True)'
   become: yes
   become_user: '{{ site.maintainer }}'
   become_method: su
