@@ -136,7 +136,7 @@
     owner: '{{ item.owner | default(site.maintainer) }}'
     group: '{{ item.group | default(site.group) }}'
     backup: yes
-    force: '{{ force_write_config | default(False) }}'
+    force: '{{ item.force | default(force_write_config | default(False)) }}'
   with_items: '{{ site.configfiles }}'
   when: '"configfiles" in site'
 
