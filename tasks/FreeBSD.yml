@@ -78,6 +78,12 @@
   when: php_fpm_umask != '022'
   notify: restart fpm
 
+- name: remove php-fpm default config
+  file:
+    path: /usr/local/etc/php-fpm.d/www.conf
+    state: absent
+  when: php_remove_default_fpm
+
 - name: login.conf umask
   blockinfile:
     dest: /etc/login.conf

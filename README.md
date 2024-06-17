@@ -23,6 +23,8 @@ php-cli.ini additional vars can be set with `php_cli_vars` dict
 
 * `php_fpm_umask` (): umask (FreeBSD only)
 
+* `php_remove_default_fpm (True)`: remove default fpm config
+
 * `www_user` and `www_group` (system dependant)
   webserver user and group
 

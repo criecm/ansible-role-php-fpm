@@ -33,3 +33,5 @@ php_cli_vars:
 php_maintainer_shell: /bin/sh
 
 php_fpm_umask: '002'
+
+php_remove_default_fpm: True
