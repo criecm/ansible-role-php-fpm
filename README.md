@@ -85,6 +85,8 @@ php-cli.ini additional vars can be set with `php_cli_vars` dict
   * `owner`: (`{{maintainer}}`)
   * `group`: (`{{group}}`)
 
+* `force_write_config`: force write php app config file (default false)
+
 * `crons` ([]): List of cron dicts (see ansible cron module for values)
 
 * `webserver_role` (nginx): Which webserver role to use (see webserver's role's README.md for additional vars)
